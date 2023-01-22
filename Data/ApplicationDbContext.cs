@@ -12,10 +12,10 @@ namespace Bookstore.Data
 		}
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Book>()
-				.HasOne(x => x.Genres)
-				.WithMany()
-				.OnDelete(DeleteBehavior.Restrict);
+			//modelBuilder.Entity<Book>()
+			//	.HasOne(x => x.Genres)
+			//	.WithMany()
+			//	.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<Author>()
 				.HasMany(x => x.Book)
