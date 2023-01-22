@@ -30,9 +30,13 @@ namespace Bookstore.Data
 				new Genre { Id = 5, Name = "Fantasy" }
 				);
 
-			//modelBuilder.Entity<Book>().HasData(
-			//	new Book { AuthorFK = 1, Format = (Cover)1, Title = "test", GenreId = 1, Id = 1, ImageURL = "1", ISBN13 = "test", Pages = 1, Price = 1 }
-			//	);
+			modelBuilder.Entity<Author>().HasData(
+				new Author { BirthDate = DateTime.Now, FirstName = "TestAuthor", LastName = "TestAuthor", Id = 1}
+				);
+
+			modelBuilder.Entity<Book>().HasData(
+				new Book { AuthorFK = 1, Format = (Cover)1, Title = "test", GenreId = 1, Id = 1, ImageURL = "placeholder.png", ISBN13 = "test", Pages = 1, Price = 1 }
+				);
 
 			base.OnModelCreating(modelBuilder);
 		}
