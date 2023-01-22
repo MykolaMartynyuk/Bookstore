@@ -1,0 +1,26 @@
+﻿@using Bookstore.Models.BookWM;
+@using Bookstore.Services;
+@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService authService;
+@inject IAuthorService authorService;
+@model BookInfoWM;
+
+<h1>Details</h1>
+<div class="row">
+	<div class="col-3">
+		<img src="~/img/@Model.Book.ImageURL" class="img-fluid" alt="@Model.Book.Title" />
+	</div>
+	<div class="col-3 row">
+		<p ><strong>Title: </strong>@Model.Book.Title</p> 
+		<p><strong>Author:</strong> @authorService.GetById( @Model.Book.AuthorFK).LastName @authorService.GetById( @Model.Book.AuthorFK).FirstName</p>
+		<p><strong>ISBN-13:</strong> @Model.Book.ISBN13</p>
+		<p><strong>Genre:</strong> @Model.Book.GenreId</p>
+		<p><strong>Pages:</strong> @Model.Book.Pages</p>
+		<p><strong>Format:</strong> @Model.Book.Format</p>
+		<p><strong>Price:</strong> €@Model.Book.Price</p>
+		@if (User.Identity.IsAuthenticated)
+		{
+			<a class="btn btn-success" asp-action="AddToShoppingCart" asp-route-id="@Model.Book.Id" asp-controller="Book">Buy</a>
+		}
+	</div>
+</div>

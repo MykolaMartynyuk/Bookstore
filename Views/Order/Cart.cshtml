@@ -1,0 +1,51 @@
+﻿@using Bookstore.Models.OrderWM;
+@model CartWM;
+@{
+    ViewData["Title"] = "Cart";
+}
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ShoppingCart != null)
+        {
+            @foreach (var book in Model.ShoppingCart)
+            {
+                <tr>
+                    <td>Title: @book.Title</td>
+                    <td>@book.Price</td>
+                    <td>
+                        <p type="hidden" value="@book.Id"></p>
+                        <p>@Model.ShoppingCart.Count(x => x == book)</p>
+                    </td>
+                    <td>@(book.Price * @Model.ShoppingCart.Count(x => x == book))</td>
+                    <td><a asp-controller="Order" asp-action="Remove" asp-route-id="@book.Id" class="btn btn-danger">Remove</a></td>
+                </tr>
+                <tr>
+                    <td>Author: @book.AuthorFK</td>
+                    
+                </tr>
+                <tr>
+                    <td>ISBN: @book.ISBN13</td>
+                </tr>
+            }
+
+            <tr>
+                <td>Total</td>
+                <td>€ @(Model.ShoppingCart.Sum(x => x.Price))</td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+<a asp-controller="Order" asp-action="CheckOut" class="btn btn-success">Checkout</a>

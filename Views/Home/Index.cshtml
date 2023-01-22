@@ -1,0 +1,45 @@
+﻿@using Bookstore.Models.BookWM;
+@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService authService;
+@inject IAuthorService authorService;
+@inject IGenreService genreService;
+@using Bookstore.Services;
+@model BookCatalogWM
+
+@{
+    ViewData["Title"] = "Catalog";
+}
+
+<h1>Catalog</h1>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+    @foreach (var book in Model.Books)
+    {
+        <div class="col">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/img/@book.ImageURL" class="img-fluid rounded-start" alt="@book.Title">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h2>@book.Title</h2>
+                            <small>@authorService.GetById(book.AuthorFK).FirstName @authorService.GetById(book.AuthorFK).LastName </small>
+                            <p>Price: @book.Price</p>
+                            <p>Genre: @genreService.GetById(book.GenreId)</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0  d-flex justify-content-between">
+                            <a asp-action="InfoBook" asp-controller="Book" asp-route-id="@book.Id">Details</a>
+                            @if ((await authService.AuthorizeAsync(User, null, "AdminOnly")).Succeeded)
+                            {
+                                <a asp-action="Edit" asp-controller="Book" asp-route-id="@book.Id" class="btn btn-primary">Edit</a>
+                            }
+                            @*<a asp-action="Edit" asp-controller="Book" asp-route-id="@book.Id" class="btn btn-primary">Edit</a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
